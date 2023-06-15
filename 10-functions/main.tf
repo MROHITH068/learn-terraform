@@ -4,6 +4,6 @@ variable "class" {
 
 ## Print the same in capital letters
 
-output "class" {
+output "classes" {
   value = upper(var.class)
 }
