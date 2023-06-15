@@ -8,6 +8,11 @@ output "sample" {
 
 ## Sometime if variable/any reference with combination of some other Strings, We must access those in ${}
 
-output "sample-ext" {
+output "sample-text" {
   value = "Value of Sample - ${var.sample}"
 }
+
+# Variable Data Types
+# String
+# number
+# boolean
