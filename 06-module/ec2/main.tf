@@ -13,6 +13,30 @@ data "aws_ami" "example" {
   name_regex = "Centos-8-DevOps-Practice"
 }
 
+resource "null_resource" "null" {
+  provisioner "remote-exec" {
+    connection {
+      type     = "ssh"
+      user     = "centos"
+      password = "DevOps321"
+      host     = aws_instance.web.public_ip
+    }
+
+    inline = [
+      "sudo labauto ansible",
+      "ansible-pull -i localhost, -U https://github.com/MROHITH068/roboshop-ansible.git main.yml -e role_name=${var.name}"
+    ]
+  }
+}
+
+resource "aws_route53_record" "www" {
+  zone_id = "Z01893031FJEHFT2WJCRK"
+  name    = "${var.name}-dev"
+  type    = "A"
+  ttl     = 30
+  records = [aws_instance.web.private_ip]
+}
+
 resource "aws_security_group" "sg" {
   name        = var.name
   description = "Allow TLS inbound traffic"
@@ -39,7 +63,3 @@ resource "aws_security_group" "sg" {
 }
 
 variable "name" {}
-
-output "public_ip" {
-  value = aws_instance.web.public_ip
-}
