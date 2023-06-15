@@ -14,6 +14,7 @@ data "aws_ami" "example" {
 }
 
 resource "null_resource" "null" {
+  depends_on = [aws_instance.web, aws_route53_record.www]
   provisioner "remote-exec" {
     connection {
       type     = "ssh"
