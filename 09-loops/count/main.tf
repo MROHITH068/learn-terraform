@@ -1,11 +1,10 @@
 resource "aws_instance" "web" {
-  
-  count = length(var.instances)
+  for_each = var.instances
   ami = data.aws_ami.example.id
   instance_type = "t3.micro"
 
   tags = {
-    Name = element(var.instances,count.index)
+    Name = lookup(each.value,"instance_type", "t3.small" )
   }
 }
 
@@ -16,5 +15,18 @@ data "aws_ami" "example" {
 }
 
 variable "instances" {
-  default = ["frontend","mongodb","cart"]
+  default = {
+    frontend = {
+      name = "frontend"
+    }
+    catalogue = {
+      name = "catalogue"
+      instance_type = "t3.nano"
+    }
+    cart = {
+      name = "cart"
+      instance_type = "t3.nano"
+    }
+  }
+
 }
