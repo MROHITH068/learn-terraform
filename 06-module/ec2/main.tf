@@ -13,8 +13,8 @@ data "aws_ami" "example" {
   name_regex = "Centos-8-DevOps-Practice"
 }
 
-resource "null_resource" "ansible" {
-  depends_on = [aws_instance.web, aws_route53_record.www]
+resource "null_resource" "example" {
+#  depends_on = [aws_instance.web, aws_route53_record.www]
   provisioner "remote-exec" {
     connection {
       type     = "ssh"
